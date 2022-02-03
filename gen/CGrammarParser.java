@@ -1,4 +1,4 @@
-// Generated from C:/Users/PERSONAL/Documents/Proyectos/Independientes/Lenguajes de Programación/Eacier/grammar\CGrammar.g4 by ANTLR 4.9.2
+// Generated from C:/Users/julia/Documents/Proyecto final/grammar\CGrammar.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -218,14 +218,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_primaryExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterPrimaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitPrimaryExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitPrimaryExpression(this);
 			else return visitor.visitChildren(this);
@@ -375,14 +367,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_genericSelection; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGenericSelection(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGenericSelection(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGenericSelection(this);
 			else return visitor.visitChildren(this);
@@ -435,14 +419,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_genericAssocList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGenericAssocList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGenericAssocList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGenericAssocList(this);
@@ -501,14 +477,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_genericAssociation; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGenericAssociation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGenericAssociation(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGenericAssociation(this);
@@ -645,14 +613,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_postfixExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterPostfixExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitPostfixExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitPostfixExpression(this);
@@ -818,14 +778,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_argumentExpressionList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterArgumentExpressionList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitArgumentExpressionList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitArgumentExpressionList(this);
 			else return visitor.visitChildren(this);
@@ -904,14 +856,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unaryExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterUnaryExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitUnaryExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitUnaryExpression(this);
@@ -1037,14 +981,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_unaryOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterUnaryOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitUnaryOperator(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitUnaryOperator(this);
 			else return visitor.visitChildren(this);
@@ -1098,14 +1034,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_castExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterCastExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitCastExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitCastExpression(this);
@@ -1195,14 +1123,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterMultiplicativeExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitMultiplicativeExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitMultiplicativeExpression(this);
 			else return visitor.visitChildren(this);
@@ -1275,14 +1195,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_additiveExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAdditiveExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAdditiveExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAdditiveExpression(this);
 			else return visitor.visitChildren(this);
@@ -1354,14 +1266,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_shiftExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterShiftExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitShiftExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitShiftExpression(this);
@@ -1443,14 +1347,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_relationalExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterRelationalExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitRelationalExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitRelationalExpression(this);
 			else return visitor.visitChildren(this);
@@ -1523,14 +1419,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_equalityExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterEqualityExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitEqualityExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitEqualityExpression(this);
 			else return visitor.visitChildren(this);
@@ -1599,14 +1487,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_andExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAndExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAndExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAndExpression(this);
 			else return visitor.visitChildren(this);
@@ -1666,14 +1546,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_exclusiveOrExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterExclusiveOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitExclusiveOrExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitExclusiveOrExpression(this);
@@ -1735,14 +1607,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_inclusiveOrExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterInclusiveOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitInclusiveOrExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitInclusiveOrExpression(this);
 			else return visitor.visitChildren(this);
@@ -1802,14 +1666,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicalAndExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterLogicalAndExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitLogicalAndExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitLogicalAndExpression(this);
@@ -1871,14 +1727,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_logicalOrExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterLogicalOrExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitLogicalOrExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitLogicalOrExpression(this);
 			else return visitor.visitChildren(this);
@@ -1939,14 +1787,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_conditionalExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterConditionalExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitConditionalExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitConditionalExpression(this);
@@ -2010,14 +1850,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignmentExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAssignmentExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAssignmentExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAssignmentExpression(this);
@@ -2087,14 +1919,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_assignmentOperator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAssignmentOperator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAssignmentOperator(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAssignmentOperator(this);
 			else return visitor.visitChildren(this);
@@ -2146,14 +1970,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitExpression(this);
@@ -2208,14 +2024,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constantExpression; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterConstantExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitConstantExpression(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitConstantExpression(this);
 			else return visitor.visitChildren(this);
@@ -2258,14 +2066,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclaration(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclaration(this);
@@ -2370,14 +2170,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_declarationSpecifiers; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclarationSpecifiers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclarationSpecifiers(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclarationSpecifiers(this);
 			else return visitor.visitChildren(this);
@@ -2435,14 +2227,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationSpecifiers2; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclarationSpecifiers2(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclarationSpecifiers2(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclarationSpecifiers2(this);
@@ -2504,14 +2288,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclarationSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclarationSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclarationSpecifier(this);
@@ -2590,14 +2366,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_initDeclaratorList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterInitDeclaratorList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitInitDeclaratorList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitInitDeclaratorList(this);
 			else return visitor.visitChildren(this);
@@ -2655,14 +2423,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_initDeclarator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterInitDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitInitDeclarator(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitInitDeclarator(this);
 			else return visitor.visitChildren(this);
@@ -2714,14 +2474,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_storageClassSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStorageClassSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStorageClassSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStorageClassSpecifier(this);
@@ -2798,14 +2550,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typeSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTypeSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTypeSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTypeSpecifier(this);
@@ -2970,14 +2714,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_structOrUnionSpecifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructOrUnionSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructOrUnionSpecifier(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructOrUnionSpecifier(this);
 			else return visitor.visitChildren(this);
@@ -3045,14 +2781,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_structOrUnion; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructOrUnion(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructOrUnion(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructOrUnion(this);
 			else return visitor.visitChildren(this);
@@ -3100,14 +2828,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structDeclarationList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructDeclarationList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructDeclarationList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructDeclarationList(this);
@@ -3164,14 +2884,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructDeclaration(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructDeclaration(this);
@@ -3266,14 +2978,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_specifierQualifierList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterSpecifierQualifierList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitSpecifierQualifierList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitSpecifierQualifierList(this);
 			else return visitor.visitChildren(this);
@@ -3341,14 +3045,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_structDeclaratorList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructDeclaratorList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructDeclaratorList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructDeclaratorList(this);
 			else return visitor.visitChildren(this);
@@ -3405,14 +3101,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStructDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStructDeclarator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStructDeclarator(this);
@@ -3480,14 +3168,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_enumSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterEnumSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitEnumSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitEnumSpecifier(this);
@@ -3574,14 +3254,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumeratorList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterEnumeratorList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitEnumeratorList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitEnumeratorList(this);
 			else return visitor.visitChildren(this);
@@ -3641,14 +3313,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumerator; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterEnumerator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitEnumerator(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitEnumerator(this);
 			else return visitor.visitChildren(this);
@@ -3696,14 +3360,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_enumerationConstant; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterEnumerationConstant(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitEnumerationConstant(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitEnumerationConstant(this);
 			else return visitor.visitChildren(this);
@@ -3742,14 +3398,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_atomicTypeSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAtomicTypeSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAtomicTypeSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAtomicTypeSpecifier(this);
@@ -3793,14 +3441,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typeQualifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTypeQualifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTypeQualifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTypeQualifier(this);
@@ -3851,14 +3491,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionSpecifier; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterFunctionSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitFunctionSpecifier(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitFunctionSpecifier(this);
@@ -3942,14 +3574,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_alignmentSpecifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAlignmentSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAlignmentSpecifier(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAlignmentSpecifier(this);
 			else return visitor.visitChildren(this);
@@ -4014,14 +3638,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclarator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclarator(this);
@@ -4116,14 +3732,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_directDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDirectDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDirectDeclarator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDirectDeclarator(this);
@@ -4382,14 +3990,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_gccDeclaratorExtension; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGccDeclaratorExtension(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGccDeclaratorExtension(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGccDeclaratorExtension(this);
 			else return visitor.visitChildren(this);
@@ -4468,14 +4068,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_gccAttributeSpecifier; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGccAttributeSpecifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGccAttributeSpecifier(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGccAttributeSpecifier(this);
 			else return visitor.visitChildren(this);
@@ -4528,14 +4120,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_gccAttributeList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGccAttributeList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGccAttributeList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGccAttributeList(this);
@@ -4615,14 +4199,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_gccAttribute; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterGccAttribute(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitGccAttribute(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitGccAttribute(this);
 			else return visitor.visitChildren(this);
@@ -4700,14 +4276,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_nestedParenthesesBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterNestedParenthesesBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitNestedParenthesesBlock(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitNestedParenthesesBlock(this);
@@ -4910,14 +4478,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_pointer; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterPointer(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitPointer(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitPointer(this);
 			else return visitor.visitChildren(this);
@@ -4995,14 +4555,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeQualifierList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTypeQualifierList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTypeQualifierList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTypeQualifierList(this);
 			else return visitor.visitChildren(this);
@@ -5060,14 +4612,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_parameterTypeList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterParameterTypeList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitParameterTypeList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitParameterTypeList(this);
 			else return visitor.visitChildren(this);
@@ -5123,14 +4667,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameterList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterParameterList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitParameterList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitParameterList(this);
@@ -5195,14 +4731,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameterDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterParameterDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitParameterDeclaration(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitParameterDeclaration(this);
@@ -5271,14 +4799,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_identifierList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterIdentifierList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitIdentifierList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitIdentifierList(this);
 			else return visitor.visitChildren(this);
@@ -5335,14 +4855,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typeName; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTypeName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTypeName(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTypeName(this);
 			else return visitor.visitChildren(this);
@@ -5398,14 +4910,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_abstractDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterAbstractDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitAbstractDeclarator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitAbstractDeclarator(this);
@@ -5504,14 +5008,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_directAbstractDeclarator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDirectAbstractDeclarator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDirectAbstractDeclarator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDirectAbstractDeclarator(this);
@@ -5840,14 +5336,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_typedefName; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTypedefName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTypedefName(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTypedefName(this);
 			else return visitor.visitChildren(this);
@@ -5889,14 +5377,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initializer; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterInitializer(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitInitializer(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitInitializer(this);
@@ -5996,14 +5476,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_initializerList; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterInitializerList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitInitializerList(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitInitializerList(this);
 			else return visitor.visitChildren(this);
@@ -6081,14 +5553,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_designation; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDesignation(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDesignation(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDesignation(this);
 			else return visitor.visitChildren(this);
@@ -6129,14 +5593,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_designatorList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDesignatorList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDesignatorList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDesignatorList(this);
@@ -6190,14 +5646,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_designator; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDesignator(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDesignator(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDesignator(this);
@@ -6264,14 +5712,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_staticAssertDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStaticAssertDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStaticAssertDeclaration(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStaticAssertDeclaration(this);
@@ -6366,14 +5806,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitStatement(this);
@@ -6557,14 +5989,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_labeledStatement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterLabeledStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitLabeledStatement(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitLabeledStatement(this);
 			else return visitor.visitChildren(this);
@@ -6639,14 +6063,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_compoundStatement; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterCompoundStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitCompoundStatement(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitCompoundStatement(this);
 			else return visitor.visitChildren(this);
@@ -6698,14 +6114,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_blockItemList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterBlockItemList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitBlockItemList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitBlockItemList(this);
@@ -6759,14 +6167,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_blockItem; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterBlockItem(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitBlockItem(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitBlockItem(this);
 			else return visitor.visitChildren(this);
@@ -6816,14 +6216,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expressionStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterExpressionStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitExpressionStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitExpressionStatement(this);
@@ -6882,14 +6274,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_selectionStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterSelectionStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitSelectionStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitSelectionStatement(this);
@@ -6981,14 +6365,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_iterationStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterIterationStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitIterationStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitIterationStatement(this);
@@ -7089,14 +6465,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_forCondition; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterForCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitForCondition(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitForCondition(this);
 			else return visitor.visitChildren(this);
@@ -7183,14 +6551,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_forDeclaration; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterForDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitForDeclaration(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitForDeclaration(this);
 			else return visitor.visitChildren(this);
@@ -7244,14 +6604,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterForExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitForExpression(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitForExpression(this);
@@ -7314,14 +6666,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_jumpStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterJumpStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitJumpStatement(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitJumpStatement(this);
@@ -7411,14 +6755,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_compilationUnit; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterCompilationUnit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitCompilationUnit(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitCompilationUnit(this);
 			else return visitor.visitChildren(this);
@@ -7468,14 +6804,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_translationUnit; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterTranslationUnit(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitTranslationUnit(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitTranslationUnit(this);
@@ -7529,14 +6857,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_externalDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterExternalDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitExternalDeclaration(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitExternalDeclaration(this);
@@ -7603,14 +6923,6 @@ public class CGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_functionDefinition; }
 		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterFunctionDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitFunctionDefinition(this);
-		}
-		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitFunctionDefinition(this);
 			else return visitor.visitChildren(this);
@@ -7672,14 +6984,6 @@ public class CGrammarParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_declarationList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).enterDeclarationList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CGrammarListener ) ((CGrammarListener)listener).exitDeclarationList(this);
-		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof CGrammarVisitor ) return ((CGrammarVisitor<? extends T>)visitor).visitDeclarationList(this);
