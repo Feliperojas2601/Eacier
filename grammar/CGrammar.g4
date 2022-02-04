@@ -27,6 +27,7 @@
 */
 
 /** C 2011 grammar built from the C11 Spec */
+/** C 2011 grammar built from the C11 Spec */
 grammar CGrammar;
 
 
@@ -36,7 +37,7 @@ primaryExpression
     |   StringLiteral+
     |   '(' expression ')'
     |   genericSelection
-    |   '__extension__'? '(' compoundStatement ')' // Blocks (GCC extension)
+    |   '_extension_'? '(' compoundStatement ')' // Blocks (GCC extension)
     |   '__builtin_va_arg' '(' unaryExpression ',' typeName ')'
     |   '__builtin_offsetof' '(' typeName ',' unaryExpression ')'
     ;
@@ -56,13 +57,16 @@ genericAssociation
 postfixExpression
     :
     (   primaryExpression
-    |   '__extension__'? '(' typeName ')' '{' initializerList ','? '}'
+    |   '_extension_'? '(' typeName ')' '{' initializerList ','? '}'
     )
-    ('[' expression ']'
+    auxpostfixExpression*
+    ;
+
+auxpostfixExpression
+    : '[' expression ']'
     | '(' argumentExpressionList? ')'
     | ('.' | '->') Identifier
     | ('++' | '--')
-    )*
     ;
 
 argumentExpressionList
@@ -71,7 +75,7 @@ argumentExpressionList
 
 unaryExpression
     :
-    ('++' |  '--' |  'sizeof')*
+    auxunaryExpression*
     (postfixExpression
     |   unaryOperator castExpression
     |   ('sizeof' | '_Alignof') '(' typeName ')'
@@ -79,34 +83,59 @@ unaryExpression
     )
     ;
 
+auxunaryExpression
+    : ('++' |  '--' |  'sizeof')
+    ;
+
 unaryOperator
     :   '&' | '*' | '+' | '-' | '~' | '!'
     ;
 
 castExpression
-    :   '__extension__'? '(' typeName ')' castExpression
+    :   '_extension_'? '(' typeName ')' castExpression
     |   unaryExpression
     |   DigitSequence // for
     ;
 
 multiplicativeExpression
-    :   castExpression (('*'|'/'|'%') castExpression)*
+    :   castExpression (multiplicativeOperator castExpression)*
+    ;
+
+multiplicativeOperator
+    : ('*'|'/'|'%')
     ;
 
 additiveExpression
-    :   multiplicativeExpression (('+'|'-') multiplicativeExpression)*
+    :   multiplicativeExpression (additiveOperator multiplicativeExpression)*
+    ;
+
+additiveOperator
+    : ('+'|'-')
     ;
 
 shiftExpression
-    :   additiveExpression (('<<'|'>>') additiveExpression)*
+    :   additiveExpression (shiftOperator additiveExpression)*
     ;
 
+shiftOperator
+    : ('<<'|'>>')
+    ;
+
+
 relationalExpression
-    :   shiftExpression (('<'|'>'|'<='|'>=') shiftExpression)*
+    :   shiftExpression (relationalOperator shiftExpression)*
+    ;
+
+relationalOperator
+    : ('<'|'>'|'<='|'>=')
     ;
 
 equalityExpression
-    :   relationalExpression (('=='| '!=') relationalExpression)*
+    :   relationalExpression (equilatyOperator relationalExpression)*
+    ;
+
+equilatyOperator
+    : ('=='| '!=')
     ;
 
 andExpression
@@ -204,12 +233,12 @@ typeSpecifier
     |   '__m128'
     |   '__m128d'
     |   '__m128i')
-    |   '__extension__' '(' ('__m128' | '__m128d' | '__m128i') ')'
+    |   '_extension' '(' ('m128' | 'm128d' | '_m128i') ')'
     |   atomicTypeSpecifier
     |   structOrUnionSpecifier
     |   enumSpecifier
     |   typedefName
-    |   '__typeof__' '(' constantExpression ')' // GCC extension
+    |   '_typeof_' '(' constantExpression ')' // GCC extension
     |   typeSpecifier pointer
     ;
 
@@ -274,12 +303,16 @@ typeQualifier
     ;
 
 functionSpecifier
-    :   ('inline'
-    |   '_Noreturn'
-    |   '__inline__' // GCC extension
-    |   '__stdcall')
+    :   auxfuntionSpecifier
     |   gccAttributeSpecifier
     |   '__declspec' '(' Identifier ')'
+    ;
+
+auxfuntionSpecifier
+    : ('inline'
+    |   '_Noreturn'
+    |   '_inline_' // GCC extension
+    |   '__stdcall')
     ;
 
 alignmentSpecifier
@@ -293,14 +326,38 @@ declarator
 directDeclarator
     :   Identifier
     |   '(' declarator ')'
-    |   directDeclarator '[' typeQualifierList? assignmentExpression? ']'
-    |   directDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   directDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
-    |   directDeclarator '[' typeQualifierList? '*' ']'
-    |   directDeclarator '(' parameterTypeList ')'
-    |   directDeclarator '(' identifierList? ')'
+    |   directDeclarator auxdirectDeclarator
+    |   directDeclarator aux1directDeclarator
+    |   directDeclarator aux2directDeclarator
+    |   directDeclarator aux3directDeclarator
+    |   directDeclarator aux4directDeclarator
+    |   directDeclarator aux5directDeclarator
     |   Identifier ':' DigitSequence  // bit field
     |   '(' typeSpecifier? pointer directDeclarator ')' // function pointer like: (__cdecl *f)
+    ;
+
+auxdirectDeclarator
+    : '[' typeQualifierList? assignmentExpression? ']'
+    ;
+
+aux1directDeclarator
+    : '[' 'static' typeQualifierList? assignmentExpression ']'
+    ;
+
+aux2directDeclarator
+    : '[' typeQualifierList 'static' assignmentExpression ']'
+    ;
+
+aux3directDeclarator
+    : '[' typeQualifierList? '*' ']'
+    ;
+
+aux4directDeclarator
+    : '(' parameterTypeList ')'
+    ;
+
+aux5directDeclarator
+    : '(' identifierList? ')'
     ;
 
 gccDeclaratorExtension
@@ -309,11 +366,15 @@ gccDeclaratorExtension
     ;
 
 gccAttributeSpecifier
-    :   '__attribute__' '(' '(' gccAttributeList ')' ')'
+    :   '_attribute_' '(' '(' gccAttributeList ')' ')'
     ;
 
 gccAttributeList
-    :   gccAttribute? (',' gccAttribute?)*
+    :   gccAttribute? auxgccAttributeList*
+    ;
+
+auxgccAttributeList
+    : ',' gccAttribute?
     ;
 
 gccAttribute
@@ -322,13 +383,20 @@ gccAttribute
     ;
 
 nestedParenthesesBlock
-    :   (   ~('(' | ')')
-        |   '(' nestedParenthesesBlock ')'
-        )*
+    : auxnestedParenthesesBlock*
+    ;
+
+auxnestedParenthesesBlock
+    : ~('(' | ')')
+    |   '(' nestedParenthesesBlock ')'
     ;
 
 pointer
-    :  (('*'|'^') typeQualifierList?)+ // ^ - Blocks language extension
+    :  (auxpointer)+ // ^ - Blocks language extension
+    ;
+
+auxpointer
+    : ('*'|'^') typeQualifierList?
     ;
 
 typeQualifierList
@@ -336,7 +404,11 @@ typeQualifierList
     ;
 
 parameterTypeList
-    :   parameterList (',' '...')?
+    :   parameterList auxparameterTypeList?
+    ;
+
+auxparameterTypeList
+    : (',' '...')
     ;
 
 parameterList
@@ -362,17 +434,40 @@ abstractDeclarator
     ;
 
 directAbstractDeclarator
-    :   '(' abstractDeclarator ')' gccDeclaratorExtension*
-    |   '[' typeQualifierList? assignmentExpression? ']'
-    |   '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   '[' typeQualifierList 'static' assignmentExpression ']'
-    |   '[' '*' ']'
-    |   '(' parameterTypeList? ')' gccDeclaratorExtension*
-    |   directAbstractDeclarator '[' typeQualifierList? assignmentExpression? ']'
-    |   directAbstractDeclarator '[' 'static' typeQualifierList? assignmentExpression ']'
-    |   directAbstractDeclarator '[' typeQualifierList 'static' assignmentExpression ']'
-    |   directAbstractDeclarator '[' '*' ']'
-    |   directAbstractDeclarator '(' parameterTypeList? ')' gccDeclaratorExtension*
+    :   auxAbstract1
+    |   auxAbstract2
+    |   auxAbstract3
+    |   auxAbstract4
+    |   auxAbstract5
+    |   auxAbstract6
+    |   directAbstractDeclarator auxAbstract2
+    |   directAbstractDeclarator auxAbstract3
+    |   directAbstractDeclarator auxAbstract4
+    |   directAbstractDeclarator auxAbstract5
+    |   directAbstractDeclarator auxAbstract6
+    ;
+
+auxAbstract1:
+    '(' abstractDeclarator ')' gccDeclaratorExtension*
+    ;
+
+auxAbstract2:
+    '[' typeQualifierList? assignmentExpression? ']'
+    ;
+
+auxAbstract3:
+    '[' 'static' typeQualifierList? assignmentExpression ']'
+    ;
+
+auxAbstract4:
+    '[' typeQualifierList 'static' assignmentExpression ']'
+    ;
+
+auxAbstract5:
+    '[' '*' ']';
+
+auxAbstract6:
+    '(' parameterTypeList? ')' gccDeclaratorExtension*
     ;
 
 typedefName
@@ -384,8 +479,12 @@ initializer
     |   '{' initializerList ','? '}'
     ;
 
+auxInitializer:
+    ',' designation? initializer
+    ;
+
 initializerList
-    :   designation? initializer (',' designation? initializer)*
+    :   designation? initializer auxInitializer*
     ;
 
 designation
@@ -412,7 +511,23 @@ statement
     |   selectionStatement
     |   iterationStatement
     |   jumpStatement
-    |   ('__asm' | '__asm__') ('volatile' | '__volatile__') '(' (logicalOrExpression (',' logicalOrExpression)*)? (':' (logicalOrExpression (',' logicalOrExpression)*)?)* ')' ';'
+    |   asm  volatileText '(' auxStatement? auxStatement2* ')' ';'
+    ;
+
+asm:
+    ('asm' | 'asm')
+    ;
+
+volatileText:
+    ('volatile' | 'volatile')
+    ;
+
+auxStatement:
+    logicalOrExpression (',' logicalOrExpression)*
+    ;
+
+auxStatement2:
+    ':' auxStatement?
     ;
 
 labeledStatement
@@ -478,7 +593,7 @@ compilationUnit
     ;
 
 translationUnit
-    :   externalDeclaration+
+    :   IncludeDirective* externalDeclaration+
     ;
 
 externalDeclaration
@@ -841,7 +956,6 @@ ComplexDefine
 
 IncludeDirective
     :   '#' Whitespace? 'include' Whitespace? (('"' ~[\r\n]* '"') | ('<' ~[\r\n]* '>' )) Whitespace? Newline
-        -> skip
     ;
 
 // ignore the following asm blocks:
@@ -886,7 +1000,7 @@ Newline
     ;
 
 BlockComment
-    :   '/*' .*? '*/'
+    :   '/' .? '*/'
         -> skip
     ;
 

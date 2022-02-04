@@ -40,6 +40,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPostfixExpression(CGrammarParser.PostfixExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxpostfixExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxpostfixExpression(CGrammarParser.AuxpostfixExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#argumentExpressionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -51,6 +57,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitUnaryExpression(CGrammarParser.UnaryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxunaryExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxunaryExpression(CGrammarParser.AuxunaryExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#unaryOperator}.
 	 * @param ctx the parse tree
@@ -70,11 +82,23 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMultiplicativeExpression(CGrammarParser.MultiplicativeExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#multiplicativeOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplicativeOperator(CGrammarParser.MultiplicativeOperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#additiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAdditiveExpression(CGrammarParser.AdditiveExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#additiveOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdditiveOperator(CGrammarParser.AdditiveOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#shiftExpression}.
 	 * @param ctx the parse tree
@@ -82,17 +106,35 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitShiftExpression(CGrammarParser.ShiftExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#shiftOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitShiftOperator(CGrammarParser.ShiftOperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#relationalExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRelationalExpression(CGrammarParser.RelationalExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#relationalOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRelationalOperator(CGrammarParser.RelationalOperatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#equalityExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitEqualityExpression(CGrammarParser.EqualityExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#equilatyOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEquilatyOperator(CGrammarParser.EquilatyOperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#andExpression}.
 	 * @param ctx the parse tree
@@ -286,6 +328,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionSpecifier(CGrammarParser.FunctionSpecifierContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxfuntionSpecifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxfuntionSpecifier(CGrammarParser.AuxfuntionSpecifierContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#alignmentSpecifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -303,6 +351,42 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitDirectDeclarator(CGrammarParser.DirectDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxdirectDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxdirectDeclarator(CGrammarParser.AuxdirectDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#aux1directDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAux1directDeclarator(CGrammarParser.Aux1directDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#aux2directDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAux2directDeclarator(CGrammarParser.Aux2directDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#aux3directDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAux3directDeclarator(CGrammarParser.Aux3directDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#aux4directDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAux4directDeclarator(CGrammarParser.Aux4directDeclaratorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#aux5directDeclarator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAux5directDeclarator(CGrammarParser.Aux5directDeclaratorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#gccDeclaratorExtension}.
 	 * @param ctx the parse tree
@@ -322,6 +406,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGccAttributeList(CGrammarParser.GccAttributeListContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxgccAttributeList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxgccAttributeList(CGrammarParser.AuxgccAttributeListContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#gccAttribute}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -334,11 +424,23 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNestedParenthesesBlock(CGrammarParser.NestedParenthesesBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxnestedParenthesesBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxnestedParenthesesBlock(CGrammarParser.AuxnestedParenthesesBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#pointer}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPointer(CGrammarParser.PointerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxpointer}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxpointer(CGrammarParser.AuxpointerContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#typeQualifierList}.
 	 * @param ctx the parse tree
@@ -351,6 +453,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParameterTypeList(CGrammarParser.ParameterTypeListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxparameterTypeList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxparameterTypeList(CGrammarParser.AuxparameterTypeListContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#parameterList}.
 	 * @param ctx the parse tree
@@ -388,6 +496,42 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDirectAbstractDeclarator(CGrammarParser.DirectAbstractDeclaratorContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract1}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract1(CGrammarParser.AuxAbstract1Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract2(CGrammarParser.AuxAbstract2Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract3}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract3(CGrammarParser.AuxAbstract3Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract4}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract4(CGrammarParser.AuxAbstract4Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract5}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract5(CGrammarParser.AuxAbstract5Context ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxAbstract6}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxAbstract6(CGrammarParser.AuxAbstract6Context ctx);
+	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#typedefName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -399,6 +543,12 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInitializer(CGrammarParser.InitializerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxInitializer}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxInitializer(CGrammarParser.AuxInitializerContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#initializerList}.
 	 * @param ctx the parse tree
@@ -435,6 +585,30 @@ public interface CGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatement(CGrammarParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#asm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAsm(CGrammarParser.AsmContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#volatileText}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVolatileText(CGrammarParser.VolatileTextContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxStatement(CGrammarParser.AuxStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link CGrammarParser#auxStatement2}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAuxStatement2(CGrammarParser.AuxStatement2Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link CGrammarParser#labeledStatement}.
 	 * @param ctx the parse tree

@@ -18,7 +18,7 @@ public class Main {
             ParseTree tree = parser.compilationUnit();
             //System.out.println(tree.toStringTree(parser));
 
-            MyVisitor<Object> loader = new MyVisitor<Object>();
+            CVisitor<Object> loader = new CVisitor<Object>();
             loader.visit(tree);
 
         } catch (NullPointerException e){
