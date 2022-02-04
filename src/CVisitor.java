@@ -34,20 +34,20 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             primaryExpressionTrad += "(" + visitExpression(ctx.expression()) + ")";
         } else if (ctx.genericSelection() != null) {
             primaryExpressionTrad += visitGenericSelection(ctx.genericSelection());
-        } else if (ctx.getText().substring(0, 16) == "__builtin_va_arg" ) {
+        } else if (ctx.getText().length() >= 16 && ctx.getText().substring(0, 16) == "__builtin_va_arg" ) {
             primaryExpressionTrad += "__builtin_va_arg" + "(";
             primaryExpressionTrad += visitUnaryExpression(ctx.unaryExpression());
             primaryExpressionTrad += ", ";
             primaryExpressionTrad += visitTypeName(ctx.typeName());
             primaryExpressionTrad += ")";
-        } else if (ctx.getText().substring(0, 18) == "__builtin_offsetof") {
+        } else if (ctx.getText().length() >= 18 && ctx.getText().substring(0, 18) == "__builtin_offsetof") {
             primaryExpressionTrad += "__builtin_offsetof" + "(";
             primaryExpressionTrad += visitTypeName(ctx.typeName());
             primaryExpressionTrad += ", ";
             primaryExpressionTrad += visitUnaryExpression(ctx.unaryExpression());
             primaryExpressionTrad += ")";
         } else {
-            if (ctx.getText().substring(0, 13).equals("_extension_")) {
+            if (ctx.getText().length() >= 13 && ctx.getText().substring(0, 13).equals("_extension_")) {
                 primaryExpressionTrad += "_extension_";
             }
             primaryExpressionTrad += "(";
@@ -102,7 +102,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         if (ctx.primaryExpression() != null) {
             postfixExpressionTrad += visitPrimaryExpression(ctx.primaryExpression());
         } else {
-            if (ctx.getText().substring(0, 13).equals("_extension_")) {
+            if (ctx.getText().length() >= 13 && ctx.getText().substring(0, 13).equals("_extension_")) {
                 postfixExpressionTrad += "_extension_";
             }
             postfixExpressionTrad += "(";
@@ -137,12 +137,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             if (ctx.getText().charAt(0) == '.') {
                 auxpostfixExpressionTrad += ".";
                 auxpostfixExpressionTrad += ctx.Identifier().getText();
-            } else if (ctx.getText().substring(0, 2).equals("->")) {
+            } else if (ctx.getText().length() >= 2 && ctx.getText().substring(0, 2).equals("->")) {
                 auxpostfixExpressionTrad += "->";
                 auxpostfixExpressionTrad += ctx.Identifier().getText();
-            } else if (ctx.getText().substring(0, 2).equals("++")) {
+            } else if (ctx.getText().length() >= 2 && ctx.getText().substring(0, 2).equals("++")) {
                 auxpostfixExpressionTrad += "++";
-            } else if (ctx.getText().substring(0, 2).equals("--")) {
+            } else if (ctx.getText().length() >= 2 && ctx.getText().substring(0, 2).equals("--")) {
                 auxpostfixExpressionTrad += "--";
             }
         }
@@ -178,11 +178,11 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             unaryExpressionTrad += visitUnaryOperator(ctx.unaryOperator());
             unaryExpressionTrad += visitCastExpression(ctx.castExpression());
         } else {
-            if (ctx.getText().substring(0, 6).equals("sizeof")) {
+            if (ctx.getText().length() >= 6 && ctx.getText().substring(0, 6).equals("sizeof")) {
                 unaryExpressionTrad += "sizeof" + "(";
                 unaryExpressionTrad += visitTypeName(ctx.typeName());
                 unaryExpressionTrad += ")";
-            } else if (ctx.getText().substring(0, 8).equals("_Alignof")) {
+            } else if (ctx.getText().length() >= 8 && ctx.getText().substring(0, 8).equals("_Alignof")) {
                 unaryExpressionTrad += "_Alignof" + "(";
                 unaryExpressionTrad += visitTypeName(ctx.typeName());
                 unaryExpressionTrad += ")";
@@ -219,7 +219,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         } else if (ctx.DigitSequence() != null) {
             castExpressionTrad += ctx.DigitSequence();
         } else {
-            if (ctx.getText().substring(0, 13).equals("_extension_")) {
+            if (ctx.getText().length() >= 11 && ctx.getText().substring(0, 11).equals("_extension_")) {
                 castExpressionTrad += "_extension_";
             }
             castExpressionTrad += "(";
@@ -471,6 +471,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitDeclaration(CGrammarParser.DeclarationContext ctx) {
         String declarationTrad = "";
+        declarationTrad += printSpaces();
         if (ctx.declarationSpecifiers() != null) {
             declarationTrad += visitDeclarationSpecifiers(ctx.declarationSpecifiers());
             if (ctx.initDeclaratorList() != null) {
@@ -1137,21 +1138,21 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     public T visitStatement (CGrammarParser.StatementContext ctx) {
         String statementTrad = "";
         if (ctx.labeledStatement() != null){
-            statementTrad +=    visitLabeledStatement(ctx.labeledStatement());
+            statementTrad += printSpaces() + visitLabeledStatement(ctx.labeledStatement());
         } else if (ctx.compoundStatement() != null){
-            statementTrad +=  visitCompoundStatement(ctx.compoundStatement());
+            statementTrad += printSpaces() + visitCompoundStatement(ctx.compoundStatement());
         } else if (ctx.expressionStatement() != null){
-            statementTrad +=  visitExpressionStatement(ctx.expressionStatement());
+            statementTrad += printSpaces() + visitExpressionStatement(ctx.expressionStatement());
         } else if (ctx.selectionStatement() != null){
-            statementTrad +=  visitSelectionStatement(ctx.selectionStatement());
+            statementTrad += printSpaces() + visitSelectionStatement(ctx.selectionStatement());
         } else if (ctx.iterationStatement() != null){
-            statementTrad+=  visitIterationStatement(ctx.iterationStatement());
+            statementTrad+= printSpaces() + visitIterationStatement(ctx.iterationStatement());
         } else if (ctx.jumpStatement() != null){
-            statementTrad +=  visitJumpStatement(ctx.jumpStatement());
+            statementTrad += printSpaces() + visitJumpStatement(ctx.jumpStatement());
         }  else {
-            statementTrad +=   (String)visitAsm(ctx.asm()) +  visitVolatileText(ctx.volatileText()) + "(" ;
+            statementTrad += printSpaces() + (String)visitAsm(ctx.asm()) +  visitVolatileText(ctx.volatileText()) + "(" ;
             if (ctx.auxStatement() != null){
-                statementTrad +=  visitAuxStatement(ctx.auxStatement());
+                statementTrad += visitAuxStatement(ctx.auxStatement());
             }
             if (ctx.auxStatement() != null){
                 for (int i = 0; i < ctx.auxStatement2().size() ;i++){
@@ -1167,7 +1168,6 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitAsm(CGrammarParser.AsmContext ctx) {
         String asmTrad = "";
-        asmTrad += printSpaces();
         asmTrad += ctx.getText();
 
         return (T) asmTrad;
@@ -1205,10 +1205,14 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         String labeledStatementTrad = "";
         if (ctx.Identifier() != null){
             labeledStatementTrad += ctx.Identifier() +":" +   visitStatement(ctx.statement());
-        } else if (ctx.getText().substring(0,4).equals("case")){
-            labeledStatementTrad += "case "+  visitConstantExpression(ctx.constantExpression()) + ":\n" +  visitStatement(ctx.statement());
+        } else if (ctx.getText().length() >= 4 && ctx.getText().substring(0,4).equals("case")){
+            labeledStatementTrad += "case "+  visitConstantExpression(ctx.constantExpression()) + ":\n";
+            numSpace++;
+            labeledStatementTrad += visitStatement(ctx.statement());
         } else {
-            labeledStatementTrad += "default: \n" +   visitStatement(ctx.statement());
+            labeledStatementTrad += "default: \n";
+            numSpace++;
+            labeledStatementTrad += visitStatement(ctx.statement());
         }
         return (T)  labeledStatementTrad;
     }
@@ -1216,22 +1220,22 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
     @Override
     public T visitCompoundStatement (CGrammarParser.CompoundStatementContext ctx) {
-        String compoundStatetmentTrad = "";
-        compoundStatetmentTrad += printSpaces() + "{\n";
+        String compoundStatementTrad = "";
+        compoundStatementTrad += "{\n";
         numSpace++;
         if (ctx.blockItemList() != null){
-            compoundStatetmentTrad += visitBlockItemList(ctx.blockItemList());
+            compoundStatementTrad += visitBlockItemList(ctx.blockItemList());
         }
         numSpace--;
-        compoundStatetmentTrad += printSpaces() + "}\n";
-        return (T) compoundStatetmentTrad;
+        compoundStatementTrad += printSpaces() + "}\n";
+        return (T) compoundStatementTrad;
     }
 
     @Override
     public T visitBlockItemList (CGrammarParser.BlockItemListContext ctx) {
         String blockItemListTrad = "";
         for (int i = 0; i < ctx.blockItem().size(); i++){
-            blockItemListTrad += printSpaces() + visitBlockItem(ctx.blockItem(i));
+            blockItemListTrad += visitBlockItem(ctx.blockItem(i));
         }
         return (T) blockItemListTrad;
     }
@@ -1263,7 +1267,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitSelectionStatement (CGrammarParser.SelectionStatementContext ctx) {
         String selectionStatementTrad = "";
-        if (ctx.getText().substring(0,2).equals("if")){
+        if (ctx.getText().length() >= 2 && ctx.getText().substring(0,2).equals("if")){
             selectionStatementTrad += "if (" +  visitExpression(ctx.expression()) + ")\n";
             selectionStatementTrad += visitStatement(ctx.statement(0));
             if(ctx.statement().size() > 1){
@@ -1278,11 +1282,11 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         }
         return (T) selectionStatementTrad;
     }
-    @Override
+
     public T visitIterationStatement (CGrammarParser.IterationStatementContext ctx) {
         String iterationStatementTrad = "";
         if (ctx.Do() != null){
-            iterationStatementTrad += ctx.Do().getText() + " (" +  visitStatement(ctx.statement()) + ")" +   visitExpression(ctx.expression());
+            iterationStatementTrad += ctx.Do().getText() +  visitStatement(ctx.statement()) + this.printSpaces() + ctx.While().getText() +" (" + visitExpression(ctx.expression()) + ");\n";
         } else if (ctx.While() != null){
             iterationStatementTrad +=  ctx.While().getText() + " (" + visitExpression(ctx.expression()) + ")" + visitStatement(ctx.statement()) ;
         } else {
@@ -1343,6 +1347,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             compilationUnitTrad += "continue";
         } else if (ctx.getText().contains("break") ) {
             compilationUnitTrad += "break";
+            numSpace--;
         }  else if (ctx.getText().contains("return") ) {
             compilationUnitTrad += "return ";
             if (ctx.expression() != null){
@@ -1370,6 +1375,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         if (ctx.IncludeDirective() != null){
             for (int i= 0; i < ctx.IncludeDirective().size(); i++){
                 translationUnitTrad += ctx.IncludeDirective(i).getText();
+            }
+            translationUnitTrad += "\n";
+        }
+        if (ctx.ComplexDefine() != null){
+            for (int i= 0; i < ctx.ComplexDefine().size(); i++){
+                translationUnitTrad += ctx.ComplexDefine(i).getText() + "\n";
             }
             translationUnitTrad += "\n";
         }

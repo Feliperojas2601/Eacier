@@ -593,7 +593,7 @@ compilationUnit
     ;
 
 translationUnit
-    :   IncludeDirective* externalDeclaration+
+    :   IncludeDirective* ComplexDefine* externalDeclaration+
     ;
 
 externalDeclaration
@@ -951,7 +951,6 @@ SChar
 
 ComplexDefine
     :   '#' Whitespace? 'define'  ~[#\r\n]*
-        -> skip
     ;
 
 IncludeDirective
@@ -1000,7 +999,7 @@ Newline
     ;
 
 BlockComment
-    :   '/' .? '*/'
+    :   '/*' .*? '*/'
         -> skip
     ;
 
