@@ -161,7 +161,7 @@ public class CVisitor2<T> extends CGrammarBaseVisitor<T> {
                     }
                     String newExpr = this.funciones.get(index).get(this.funciones.get(index).size()-1);
                     newExpr = newExpr.replace("return","");
-                    //newExpr = newExpr.replace(";", "");
+                    newExpr = newExpr.replace(";", "").replace("\n", "");
                     int k = 0;
                     while (k < parameters.size()-1){
                         newExpr = newExpr.replaceAll("\\b"+parameters.get(k)+"\\b", parameters.get(k+1));
@@ -300,69 +300,71 @@ public class CVisitor2<T> extends CGrammarBaseVisitor<T> {
                 multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i));
             }
         } else {
-            if (ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?")) {
-                long number = Math.round(Double.parseDouble(ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText()));
-                //casteo de div a float
-                if (ctx.multiplicativeOperator(0) != null) {
-                    if (ctx.multiplicativeOperator(0).getText().equals("/") && !(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?") && this.IsPowerOfTwo(Math.round(Double.parseDouble(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText()))))) {
-                        multiplicativeExpressionTrad += (float) number;
-                    } else {
-                        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+            String exprFirst = (String) visitCastExpression(ctx.castExpression(0));
+
+            if (exprFirst.matches("[+-]?\\d*(\\.\\d+)?")) {
+                long number = Math.round(Double.parseDouble(exprFirst));
+                if(ctx.castExpression().size() > 1){
+                    String exprSecond = "";
+                    if(traductor == false) {
+                        traductor = true;
+                        exprSecond = (String) visitCastExpression(ctx.castExpression(1));
+                        traductor = false;
+                    }else{
+                        exprSecond = (String) visitCastExpression(ctx.castExpression(1));
                     }
-                } else {
-                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
-                }
-            } else {
-                String string = ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText();
-                //casteo de div a float
-                if (ctx.multiplicativeOperator(0) != null) {
-                    if (ctx.multiplicativeOperator(0).getText().equals("/") && !(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?") && this.IsPowerOfTwo(Integer.parseInt(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText())))) {
-                        multiplicativeExpressionTrad += "(float) " + string;
-                    } else {
-                        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+                    if(ctx.multiplicativeOperator(0).getText().equals("/") && !(exprSecond.matches("[+-]?\\d*(\\.\\d+)?") && IsPowerOfTwo(Math.round(Double.parseDouble(exprSecond))))){
+                        exprFirst = (float) number + "";
                     }
-                } else {
-                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
                 }
+                multiplicativeExpressionTrad += exprFirst;
+
+            }else{
+                if(ctx.castExpression().size() > 1){
+                    String exprSecond = (String) visitCastExpression(ctx.castExpression(1));
+                    if(ctx.multiplicativeOperator(0).getText().equals("/") && !(exprSecond.matches("[+-]?\\d*(\\.\\d+)?") && IsPowerOfTwo(Math.round(Double.parseDouble(exprSecond))))){
+                        exprFirst = "(float)" + exprFirst;
+                    }
+                }
+                multiplicativeExpressionTrad += exprFirst;
             }
-            for (int i = 0; i<ctx.multiplicativeOperator().size(); i++){
-                if (ctx.multiplicativeOperator(i).getText().equals("/") || ctx.multiplicativeOperator(i).getText().equals("*")) {
-                    if (ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?")) {
-                        long number = Math.round(Double.parseDouble(ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText()));
-                        if (this.IsPowerOfTwo(number)) {
-                            //reemplazo por desplazamientos
-                            long log = Math.round(Math.log(number)/Math.log(2));
-                            if (ctx.multiplicativeOperator(i).getText().equals("*")) {
-                                multiplicativeExpressionTrad += " << ";
-                            } else {
-                                multiplicativeExpressionTrad += " >> ";
+
+            if (ctx.castExpression().size() > 1) {
+                for (int i = 1; i < ctx.castExpression().size(); i++) {
+                    if (ctx.multiplicativeOperator(i-1).getText().equals("/") || ctx.multiplicativeOperator(i-1).getText().equals("*")) {
+                        String exprN = (String) visitCastExpression(ctx.castExpression(i));
+                        if (exprN.matches("[+-]?\\d*(\\.\\d+)?")) {
+                            long number = Math.round(Double.parseDouble(exprN));
+                            if(this.IsPowerOfTwo(number)) {
+                                long log = Math.round(Math.log(number)/Math.log(2));
+                                if (ctx.multiplicativeOperator(i-1).getText().equals("*")) {
+                                    multiplicativeExpressionTrad += "<<";
+                                } else {
+                                    multiplicativeExpressionTrad += ">>";
+                                }
+                                multiplicativeExpressionTrad += log;
+                            }else{
+                                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i-1));
+                                if (ctx.multiplicativeOperator(i-1).getText().equals("/")) {
+                                    multiplicativeExpressionTrad += (float) number;
+                                } else {
+                                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i));
+                                }
                             }
-                            multiplicativeExpressionTrad += log;
-                        } else {
-                            //casteo de div a float
-                            if (ctx.multiplicativeOperator(i).getText().equals("/")) {
-                                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
-                                multiplicativeExpressionTrad += (float) number;
+                        }else{
+                            multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i-1));
+                            if (ctx.multiplicativeOperator(i-1).getText().equals("/")) {
+                                multiplicativeExpressionTrad += "(float) " + exprN;
                             } else {
-                                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
-                                multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
+                                multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i));
                             }
                         }
-                    } else {
-                        String string = ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText();
-                        //casteo de div a float
-                        if (ctx.multiplicativeOperator(i).getText().equals("/")) {
-                            multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
-                            multiplicativeExpressionTrad += "(float) " + string;
-                        } else {
-                            multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
-                            multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
-                        }
+                    }else {
+                        multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i - 1));
+                        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i));
                     }
-                } else {
-                    multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
-                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
                 }
+
             }
         }
         return (T) multiplicativeExpressionTrad;
@@ -1491,13 +1493,13 @@ public class CVisitor2<T> extends CGrammarBaseVisitor<T> {
         if (ctx.translationUnit() != null) {
             compilationUnitTrad += visitTranslationUnit(ctx.translationUnit());
         }
-        compilationUnitTrad = compilationUnitTrad.replaceAll("\\n;", "");
+        //compilationUnitTrad = compilationUnitTrad.replaceAll("\\n;", "");
         if (optimum) {
             //Dejar todo en una linea sin espacios
             compilationUnitTrad = compilationUnitTrad.replaceAll("\\s+", "");
         }
         texto = compilationUnitTrad;
-        //System.out.print(compilationUnitTrad);
+        System.out.print(compilationUnitTrad);
         return (T) compilationUnitTrad;
     }
 

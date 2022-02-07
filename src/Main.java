@@ -15,7 +15,7 @@ public class Main {
             CGrammarParser parser = new CGrammarParser(tokens);
             ParseTree tree = parser.compilationUnit();
             //System.out.println(tree.toStringTree(parser));
-            CVisitor2<Object> loader = new CVisitor2<>();
+            CVisitor<Object> loader = new CVisitor<>();
             loader.visit(tree);
             String texto = loader.texto;
             //System.out.println(texto);
@@ -26,7 +26,7 @@ public class Main {
             CommonTokenStream tokens_1 = new CommonTokenStream(lexer_1);
             CGrammarParser parser_1 = new CGrammarParser(tokens_1);
             ParseTree tree_1 = parser_1.compilationUnit();
-            CVisitor<Object> loader_1 = new CVisitor<Object>();
+            CVisitor2<Object> loader_1 = new CVisitor2<Object>();
             loader_1.visit(tree_1);
 
         } catch (NullPointerException e){

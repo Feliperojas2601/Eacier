@@ -20,8 +20,11 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
     ArrayList<ArrayList<String>> funciones = new ArrayList<ArrayList<String>>();
 
+    String texto = "";
+
     String tipoTh = "";
     String casteoTh = "";
+    String unaryOperatorTh = "";
     int contexto = -1;
     boolean traduccion = false;
     int numSpace = 0;
@@ -191,7 +194,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         expresion = expresion.replaceAll("[¿?()]", "");
         String tipoDatoExpr = "";
 
-        try{
+        //try{
 
             ExpresionLexer lexer = new ExpresionLexer(CharStreams.fromString(expresion));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -202,9 +205,9 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
             tipoDatoExpr = loader.getFinalResult();
 
-        } catch (Exception e){
-            System.out.println(e);
-        }
+        //} catch (Exception e){
+            //System.out.println(e);
+        //}
 
         return tipoDatoExpr;
     }
@@ -236,12 +239,14 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     }
 
     String reemplazo(String linea){
+        //System.out.print("LINEA: " + linea + "\n");
         int i = contexto;
 
         while(i != -1){
             for (String exprComun : exprComunes.get(i)) {
                 String raiz = getRaiz(exprComun);
                 linea = linea.replace("(", "").replace(")", "");
+                //System.out.print("RAIZ: " + raiz+ "\n");
                 if (linea.contains(raiz)) {
                     //System.out.print("MATCHHH\n");
                     int tam1 = varsTemp.size();
@@ -312,7 +317,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
         if (ctx.Identifier() != null) {
             primaryExpressionTrad += ctx.Identifier().getText();
-            writeExpr("nodo{" + ctx.Identifier().getText() + "}");
+            writeExpr("nodo{" + unaryOperatorTh + ctx.Identifier().getText() + "}");
         } else if (ctx.Constant() != null) {
             primaryExpressionTrad += ctx.Constant().getText();
             writeExpr("nodo{" + ctx.Constant().getText() + "}");
@@ -467,7 +472,9 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             unaryExpressionTrad += visitPostfixExpression(ctx.postfixExpression());
         } else if (ctx.unaryOperator() != null) {
             unaryExpressionTrad += visitUnaryOperator(ctx.unaryOperator());
+            unaryOperatorTh = (String) visitUnaryOperator(ctx.unaryOperator());
             unaryExpressionTrad += visitCastExpression(ctx.castExpression());
+            unaryOperatorTh = "";
         } else {
             if (ctx.getText().length() >= 6 && ctx.getText().substring(0, 6).equals("sizeof")) {
                 unaryExpressionTrad += "sizeof" + "(";
@@ -1786,10 +1793,10 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         String selectionStatementTrad = "";
 
         if (ctx.getText().length() >= 2 && ctx.getText().substring(0,2).equals("if")){
-            String linea = "if (";
+            String linea = "if (¿";
 
             newExpr("{");
-            linea += visitExpression(ctx.expression()) + ")\n";
+            linea += visitExpression(ctx.expression()) + "?)\n";
             selectionStatementTrad += reemplazo(linea).replace("¿", "(").replace("?", ")");
             writeExpr("}");
 
@@ -1930,7 +1937,8 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         if (ctx.translationUnit() != null) {
             compilationUnitTrad +=  visitTranslationUnit(ctx.translationUnit());
         }
-        System.out.print(compilationUnitTrad);
+        texto = compilationUnitTrad;
+        //System.out.print(compilationUnitTrad);
 
         return (T) compilationUnitTrad;
 
