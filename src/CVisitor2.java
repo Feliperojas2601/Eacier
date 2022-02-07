@@ -1,302 +1,15 @@
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-
-import java.sql.Time;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import java.sql.SQLOutput;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class CVisitor<T> extends CGrammarBaseVisitor<T> {
+public class CVisitor2<T> extends CGrammarBaseVisitor<T> {
 
-    ArrayList<HashSet<String>> exprComunes = new ArrayList<>();
-    ArrayList<ArrayList<String>> expr = new ArrayList<>();
-
-    ArrayList<HashMap<String, String>> vars = new ArrayList<>();
-    ArrayList<ArrayList<String>> varsTemp = new ArrayList<>();
-
+    boolean traductor = false;
+    boolean optimum = false;
+    public String texto;
     ArrayList<ArrayList<String>> funciones = new ArrayList<ArrayList<String>>();
 
-    String tipoTh = "";
-    String casteoTh = "";
-    int contexto = -1;
-    boolean traduccion = false;
     int numSpace = 0;
-
-    String getRaiz(String arbol){
-        String raiz = "";
-        if(!arbol.equals("{}") && !arbol.equals("{") && !arbol.equals("}") && !arbol.equals("")) {
-            try {
-
-                ArbolLexer lexer;
-                lexer = new ArbolLexer(CharStreams.fromString(arbol));
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
-                ArbolParser parser = new ArbolParser(tokens);
-                ParseTree tree = parser.arbol();
-                ArbolVisit<Object> loader = new ArbolVisit<>();
-                loader.visit(tree);
-
-                raiz = loader.getRaiz();
-
-            } catch (Exception e) {
-
-            }
-        }
-
-        return raiz;
-    }
-
-    ArrayList<String> getNiveles(String arbol){
-        ArrayList<String> niveles = new ArrayList<>();
-        if(!arbol.equals("{}") && !arbol.equals("{") && !arbol.equals("}") && !arbol.equals("")) {
-            try {
-                ArbolLexer lexer;
-                lexer = new ArbolLexer(CharStreams.fromString(arbol));
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
-                ArbolParser parser = new ArbolParser(tokens);
-                ParseTree tree = parser.arbol();
-                ArbolVisit<Object> loader = new ArbolVisit<>();
-                loader.visit(tree);
-
-                niveles = loader.getNiveles();
-
-            } catch (Exception e) {
-
-            }
-        }
-
-        return niveles;
-    }
-
-    HashSet<ArrayList<String>> comparar(HashSet<ArrayList<String>> matchs, int contex, ArrayList<String> niveles, ArrayList<String> niveles2){
-        for(int i = 0; i < niveles.size(); i++){
-            String nivel = niveles.get(i);
-            for(int j = 0; j < niveles2.size(); j++){
-                String nivel2 = niveles2.get(j);
-                if(nivel.contains(nivel2.substring(1, nivel2.length()-1))){
-                    matchs.removeIf(arbol -> nivel2.contains(arbol.get(1).substring(1, arbol.get(1).length()-1)));
-
-                    ArrayList<String> newMatch = new ArrayList<>();
-                    newMatch.add(contex + "");
-                    newMatch.add(nivel2);
-                    matchs.add(newMatch);
-
-                }else if (nivel2.contains(nivel.substring(1, nivel.length()-1))) {
-                    matchs.removeIf(arbol -> nivel.contains(arbol.get(1).substring(1, arbol.get(1).length()-1)));
-
-                    ArrayList<String> newMatch = new ArrayList<>();
-                    newMatch.add(contex + "");
-                    newMatch.add(nivel);
-                    matchs.add(newMatch);
-                }
-            }
-        }
-
-        return matchs;
-    }
-
-    void buscarCoincidencias(){
-        if(!traduccion) {
-            ArrayList<String> exprActuales = expr.get(contexto);
-
-            for (int i = 1; i < exprActuales.size(); i++) {
-                String arbolActual = exprActuales.get(i);
-                ArrayList<String> niveles = getNiveles(arbolActual);
-                HashSet<ArrayList<String>> matchs = new HashSet<>();
-
-                int k = contexto;
-                while(k != -1){
-                    for(int j = 1; j < expr.get(k).size(); j++) {
-                        ArrayList<String> niveles2 = getNiveles(expr.get(k).get(j));
-                        if (k != contexto || j != i) {
-                            matchs = comparar(matchs, k, niveles, niveles2);
-                        }
-                    }
-                    k = Integer.parseInt(expr.get(k).get(0));
-                }
-
-                for(ArrayList<String> match: matchs){
-                    boolean insertar = true;
-                    for (String exprComun : exprComunes.get(Integer.parseInt(match.get(0)))) {
-                        if(match.get(1).contains(exprComun.substring(1, exprComun.length()-1))){
-                            insertar = false;
-                        }
-                    }
-                    if(insertar){
-                        exprComunes.get(Integer.parseInt(match.get(0))).add(match.get(1));
-                    }
-                }
-            }
-        }
-    }
-
-    void newExpr(String set){
-        if(!traduccion){
-            expr.get(contexto).add(set);
-        }
-    }
-
-    void writeExpr(String set){
-        if(!traduccion){
-            int size = expr.get(contexto).size();
-            String exprAct = expr.get(contexto).get(size-1);
-            expr.get(contexto).set(size-1, exprAct + set);
-        }
-        return;
-    }
-
-    void entrarContex(){
-        if(!traduccion){
-            exprComunes.add(new HashSet<>());
-        }
-        expr.add(new ArrayList<>());
-        expr.get(expr.size()-1).add(contexto + "");
-        contexto = expr.size() - 1;
-        vars.add(new HashMap<>());
-    }
-
-    void salirContex(){
-        if(!traduccion){
-            buscarCoincidencias();
-        }
-        contexto = Integer.parseInt(expr.get(contexto).get(0));
-        vars.remove(vars.size()-1);
-    }
-
-    String buscarVarTemp(String raiz){
-        String nomVar = "";
-
-        boolean existe = false;
-        for(int i = 0; i < varsTemp.size(); i++){
-            if(varsTemp.get(i).get(1).equals(raiz)){
-                nomVar = varsTemp.get(i).get(0);
-                existe = existe || true;
-            }
-        }
-
-        if(!existe){
-            ArrayList<String> numVar = new ArrayList<>();
-            nomVar = "temp_" + varsTemp.size();
-            numVar.add(nomVar);
-            numVar.add(raiz);
-            varsTemp.add(numVar);
-        }
-        return nomVar;
-    }
-
-    String tipoDatoExpr(String expresion){
-        expresion = expresion.replaceAll("[¿?()]", "");
-        String tipoDatoExpr = "";
-
-        try{
-
-            ExpresionLexer lexer = new ExpresionLexer(CharStreams.fromString(expresion));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            ExpresionParser parser = new ExpresionParser(tokens);
-            ParseTree tree = parser.exp1();
-            ExpVisitor<Object> loader = new ExpVisitor<Object>(vars);
-            loader.visit(tree);
-
-            tipoDatoExpr = loader.getFinalResult();
-
-        } catch (Exception e){
-            System.out.println(e);
-        }
-
-        return tipoDatoExpr;
-    }
-
-    String editarLinea(String linea){
-
-        /*
-        Matcher m = Pattern.compile("\\(.+\\)").matcher(linea);
-        while(m.find()){
-            String exprMul = m.group();
-            String exprMulOp = "";
-            try{
-                ExpresionMulLexer lexer = new ExpresionLexer(CharStreams.fromString(linea));
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
-                ExpresionMulParser parser = new ExpresionMulParser(tokens);
-                ParseTree tree = parser.exp1();
-                ExpMulVisitor<Object> loader = new ExpMulVisitor<Object>();
-                loader.visit(tree);
-
-                exprMulOp = loader.getChange();
-
-            } catch (Exception e){
-                System.out.println(e);
-            }
-            linea.replace(exprMul, exprMulOp);
-        }
-        */
-        return linea;
-    }
-
-    String reemplazo(String linea){
-        int i = contexto;
-
-        while(i != -1){
-            for (String exprComun : exprComunes.get(i)) {
-                String raiz = getRaiz(exprComun);
-                linea = linea.replace("(", "").replace(")", "");
-                if (linea.contains(raiz)) {
-                    //System.out.print("MATCHHH\n");
-                    int tam1 = varsTemp.size();
-                    String nomVar = buscarVarTemp(raiz);
-                    linea = linea.replace(raiz, nomVar);
-                    int tam2 = varsTemp.size();
-                    if (tam1 != tam2) {
-                        String varTemp = varsTemp.get(varsTemp.size() - 1).get(1);
-                        varTemp = editarLinea(varTemp);
-                        linea = tipoDatoExpr(varTemp) + " " + nomVar + " = " + varTemp + ";\n"
-                                + printSpaces() + linea;
-                    }
-                }
-            }
-            i = Integer.parseInt(expr.get(i).get(0));
-        }
-
-        linea = editarLinea(linea);
-        return linea;
-    }
-
-    boolean IsPowerOfTwo(long x){
-        return (x != 0) && ((x & (x-1)) == 0);
-    }
-
-    void printExpr(){
-        System.out.print("EXPRESIONES\n");
-        for(int i = 0; i < expr.size(); i++){
-            for(int j = 0; j < expr.get(i).size(); j++){
-                System.out.print(expr.get(i).get(j) + " | ");
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
-    }
-
-    void printExprComunes(){
-        System.out.print("EXPRESIONES COMUNES\n");
-        for(int i = 0; i < exprComunes.size(); i++){
-            for(String e : exprComunes.get(i)){
-                System.out.print(e + " | ");
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
-    }
-
-    void printVars(){
-        for(int i = 0; i < vars.size(); i++){
-            for(String var: vars.get(i).keySet()){
-                System.out.print("var: " + var + "  tipo: " + vars.get(i).get(var) + " | ");
-            }
-            System.out.print("\n");
-        }
-    }
 
     String printSpaces(){
         String spaces  = "";
@@ -306,20 +19,21 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         return spaces;
     }
 
+    public boolean IsPowerOfTwo(long x) {
+        return (x != 0) && ((x & (x - 1)) == 0);
+    }
+
     @Override
     public T visitPrimaryExpression(CGrammarParser.PrimaryExpressionContext ctx) {
         String primaryExpressionTrad = "";
 
         if (ctx.Identifier() != null) {
             primaryExpressionTrad += ctx.Identifier().getText();
-            writeExpr("nodo{" + ctx.Identifier().getText() + "}");
         } else if (ctx.Constant() != null) {
             primaryExpressionTrad += ctx.Constant().getText();
-            writeExpr("nodo{" + ctx.Constant().getText() + "}");
         } else if (ctx.StringLiteral().size() != 0) {
             for (int i = 0; i < ctx.StringLiteral().size(); i++) {
                 primaryExpressionTrad += ctx.StringLiteral(i).getText();
-                writeExpr("nodo{" + ctx.StringLiteral(i).getText() + "}");
             }
         } else if (ctx.expression() != null) {
             primaryExpressionTrad += "(" + visitExpression(ctx.expression()) + ")";
@@ -389,22 +103,76 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitPostfixExpression(CGrammarParser.PostfixExpressionContext ctx) {
         String postfixExpressionTrad = "";
-
-        if (ctx.primaryExpression() != null) {
-            postfixExpressionTrad += visitPrimaryExpression(ctx.primaryExpression());
-        } else {
-            if (ctx.getText().length() >= 13 && ctx.getText().substring(0, 13).equals("_extension_")) {
-                postfixExpressionTrad += "_extension_";
+        boolean finded = false;
+        int index = Integer.MAX_VALUE;
+        if (!this.traductor){
+            if (ctx.primaryExpression() != null) {
+                postfixExpressionTrad += visitPrimaryExpression(ctx.primaryExpression());
+            } else {
+                if (ctx.getText().length() >= 13 && ctx.getText().substring(0, 13).equals("_extension_")) {
+                    postfixExpressionTrad += "_extension_";
+                }
+                postfixExpressionTrad += "(";
+                postfixExpressionTrad += visitTypeName(ctx.typeName());
+                postfixExpressionTrad += ")" + "{\n";
+                postfixExpressionTrad += visitInitializerList(ctx.initializerList());
+                postfixExpressionTrad += "}\n";
             }
-            postfixExpressionTrad += "(";
-            postfixExpressionTrad += visitTypeName(ctx.typeName());
-            postfixExpressionTrad += ")" + "{\n";
-            postfixExpressionTrad += visitInitializerList(ctx.initializerList());
-            postfixExpressionTrad += "}\n";
-        }
-        if (ctx.auxpostfixExpression() != null) {
-            for (int i = 0; i < ctx.auxpostfixExpression().size(); i++) {
-                postfixExpressionTrad += visitAuxpostfixExpression(ctx.auxpostfixExpression(i));
+            if (ctx.auxpostfixExpression() != null) {
+                for (int i = 0; i < ctx.auxpostfixExpression().size(); i++) {
+                    postfixExpressionTrad += visitAuxpostfixExpression(ctx.auxpostfixExpression(i));
+                }
+            }
+        } else {
+            if (ctx.primaryExpression() != null) {
+                for (int i = 0; i<this.funciones.size(); i++) {
+                    if (ctx.primaryExpression().getText().equals(this.funciones.get(i).get(1))) {
+                        index = i;
+                        break;
+                    }
+                }
+                if(index < Integer.MAX_VALUE) {
+                    finded = true;
+                }else {
+                    postfixExpressionTrad += visitPrimaryExpression(ctx.primaryExpression());
+                }
+            } else {
+                if (ctx.getText().length() >= 13 && ctx.getText().substring(0, 13).equals("_extension_")) {
+                    postfixExpressionTrad += "_extension_";
+                }
+                postfixExpressionTrad += "(";
+                postfixExpressionTrad += visitTypeName(ctx.typeName());
+                postfixExpressionTrad += ")" + "{\n";
+                postfixExpressionTrad += visitInitializerList(ctx.initializerList());
+                postfixExpressionTrad += "}\n";
+            }
+            if (ctx.auxpostfixExpression() != null) {
+                if (finded) {
+                    ArrayList<String> parameters = new ArrayList<>();
+                    for (int i = 3; i<this.funciones.get(index).size(); i++){
+                        if (this.funciones.get(index).get(i).equals("1")) {
+                            break;
+                        }
+                        parameters.add(this.funciones.get(index).get(i));
+                        if (ctx.auxpostfixExpression(0) != null && ctx.auxpostfixExpression(0).argumentExpressionList() != null){
+                            String parameter = (String) visitAssignmentExpression(ctx.auxpostfixExpression(0).argumentExpressionList().assignmentExpression(i-3));
+                            parameters.add(parameter);
+                        }
+                    }
+                    String newExpr = this.funciones.get(index).get(this.funciones.get(index).size()-1);
+                    newExpr = newExpr.replace("return","");
+                    //newExpr = newExpr.replace(";", "");
+                    int k = 0;
+                    while (k < parameters.size()-1){
+                        newExpr = newExpr.replaceAll("\\b"+parameters.get(k)+"\\b", parameters.get(k+1));
+                        k = k+2;
+                    }
+                    postfixExpressionTrad += newExpr;
+                } else {
+                    for (int i = 0; i < ctx.auxpostfixExpression().size(); i++) {
+                        postfixExpressionTrad += visitAuxpostfixExpression(ctx.auxpostfixExpression(i));
+                    }
+                }
             }
         }
         return (T) postfixExpressionTrad;
@@ -419,11 +187,11 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             auxpostfixExpressionTrad += visitExpression(ctx.expression());
             auxpostfixExpressionTrad += "]";
         } else if (ctx.getText().charAt(0) == '(') {
-            auxpostfixExpressionTrad += "(¿";
+            auxpostfixExpressionTrad += "(";
             if (ctx.argumentExpressionList() != null) {
                 auxpostfixExpressionTrad += visitArgumentExpressionList(ctx.argumentExpressionList());
             }
-            auxpostfixExpressionTrad += "?)";
+            auxpostfixExpressionTrad += ")";
         } else {
             if (ctx.getText().charAt(0) == '.') {
                 auxpostfixExpressionTrad += ".";
@@ -514,15 +282,9 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
                 castExpressionTrad += "_extension_";
             }
             castExpressionTrad += "(";
-            casteoTh = "¿" + (String) visitTypeName(ctx.typeName()) + "?";
-            if(casteoTh == null){
-                casteoTh = "";
-            }
-            castExpressionTrad += casteoTh;
-
+            castExpressionTrad += visitTypeName(ctx.typeName());
             castExpressionTrad += ")";
             castExpressionTrad += visitCastExpression(ctx.castExpression());
-            casteoTh = "";
         }
 
         return (T) castExpressionTrad;
@@ -531,40 +293,85 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitMultiplicativeExpression(CGrammarParser.MultiplicativeExpressionContext ctx) {
         String multiplicativeExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.castExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitMultiplicativeExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.castExpression().size() > 1) {
-            writeExpr("{");
-            multiplicativeExpressionTrad += "¿";
-        }
-        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
-        if (ctx.castExpression().size() > 1) {
-            for (int i = 1; i < ctx.castExpression().size(); i++) {
-                writeExpr("nodo{" + ctx.multiplicativeOperator(i-1).getText() + "}");
-                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i - 1));
+        if (!this.traductor){
+            multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+            for(int i=0; i<ctx.multiplicativeOperator().size(); i++){
+                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
                 multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i));
             }
-            multiplicativeExpressionTrad += "?";
-            writeExpr("}");
+        } else {
+            if (ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?")) {
+                long number = Math.round(Double.parseDouble(ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText()));
+                //casteo de div a float
+                if (ctx.multiplicativeOperator(0) != null) {
+                    if (ctx.multiplicativeOperator(0).getText().equals("/") && !(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?") && this.IsPowerOfTwo(Math.round(Double.parseDouble(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText()))))) {
+                        multiplicativeExpressionTrad += (float) number;
+                    } else {
+                        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+                    }
+                } else {
+                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+                }
+            } else {
+                String string = ctx.castExpression(0).unaryExpression().postfixExpression().primaryExpression().getText();
+                //casteo de div a float
+                if (ctx.multiplicativeOperator(0) != null) {
+                    if (ctx.multiplicativeOperator(0).getText().equals("/") && !(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?") && this.IsPowerOfTwo(Integer.parseInt(ctx.castExpression(1).unaryExpression().postfixExpression().primaryExpression().getText())))) {
+                        multiplicativeExpressionTrad += "(float) " + string;
+                    } else {
+                        multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+                    }
+                } else {
+                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(0));
+                }
+            }
+            for (int i = 0; i<ctx.multiplicativeOperator().size(); i++){
+                if (ctx.multiplicativeOperator(i).getText().equals("/") || ctx.multiplicativeOperator(i).getText().equals("*")) {
+                    if (ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText().matches("[+-]?\\d*(\\.\\d+)?")) {
+                        long number = Math.round(Double.parseDouble(ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText()));
+                        if (this.IsPowerOfTwo(number)) {
+                            //reemplazo por desplazamientos
+                            long log = Math.round(Math.log(number)/Math.log(2));
+                            if (ctx.multiplicativeOperator(i).getText().equals("*")) {
+                                multiplicativeExpressionTrad += " << ";
+                            } else {
+                                multiplicativeExpressionTrad += " >> ";
+                            }
+                            multiplicativeExpressionTrad += log;
+                        } else {
+                            //casteo de div a float
+                            if (ctx.multiplicativeOperator(i).getText().equals("/")) {
+                                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
+                                multiplicativeExpressionTrad += (float) number;
+                            } else {
+                                multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
+                                multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
+                            }
+                        }
+                    } else {
+                        String string = ctx.castExpression(i+1).unaryExpression().postfixExpression().primaryExpression().getText();
+                        //casteo de div a float
+                        if (ctx.multiplicativeOperator(i).getText().equals("/")) {
+                            multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
+                            multiplicativeExpressionTrad += "(float) " + string;
+                        } else {
+                            multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
+                            multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
+                        }
+                    }
+                } else {
+                    multiplicativeExpressionTrad += visitMultiplicativeOperator(ctx.multiplicativeOperator(i));
+                    multiplicativeExpressionTrad += visitCastExpression(ctx.castExpression(i+1));
+                }
+            }
         }
-
         return (T) multiplicativeExpressionTrad;
     }
 
     @Override
     public T visitMultiplicativeOperator(CGrammarParser.MultiplicativeOperatorContext ctx) {
         String multiplicativeOperatorTrad = "";
-        multiplicativeOperatorTrad += ctx.getText();
+        multiplicativeOperatorTrad += " " + ctx.getText() +" ";
 
         return (T) multiplicativeOperatorTrad;
     }
@@ -572,40 +379,20 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitAdditiveExpression(CGrammarParser.AdditiveExpressionContext ctx) {
         String additiveExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.multiplicativeExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitAdditiveExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.multiplicativeExpression().size() > 1) {
-            writeExpr("{");
-            additiveExpressionTrad += "¿";
-        }
         additiveExpressionTrad += visitMultiplicativeExpression(ctx.multiplicativeExpression(0));
         if (ctx.multiplicativeExpression().size() > 1) {
             for (int i = 1; i < ctx.multiplicativeExpression().size(); i++) {
-                writeExpr("nodo{" + ctx.additiveOperator(i-1).getText() + "}");
-                additiveExpressionTrad += visitAdditiveOperator(ctx.additiveOperator(i - 1));
+                additiveExpressionTrad += visitAdditiveOperator(ctx.additiveOperator(i-1));
                 additiveExpressionTrad += visitMultiplicativeExpression(ctx.multiplicativeExpression(i));
             }
-            additiveExpressionTrad += "?";
-            writeExpr("}");
         }
-
         return (T) additiveExpressionTrad;
     }
 
     @Override
     public T visitAdditiveOperator(CGrammarParser.AdditiveOperatorContext ctx) {
         String additiveOperatorTrad = "";
-        additiveOperatorTrad += ctx.getText();
+        additiveOperatorTrad += " "+ ctx.getText()+" ";
 
         return (T) additiveOperatorTrad;
     }
@@ -613,31 +400,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitShiftExpression(CGrammarParser.ShiftExpressionContext ctx) {
         String shiftExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.additiveExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitShiftExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);;
-            }
-        }
-
-        if (ctx.additiveExpression().size() > 1) {
-            writeExpr("{");
-            shiftExpressionTrad += "¿";
-        }
         shiftExpressionTrad += visitAdditiveExpression(ctx.additiveExpression(0));
-        if (ctx.additiveExpression().size() > 1) {
+        if (ctx.additiveExpression().size() > 1){
             for (int i = 1; i < ctx.additiveExpression().size(); i++) {
-                writeExpr("nodo{" + ctx.shiftOperator(i-1).getText() + "}");
-                shiftExpressionTrad += visitShiftOperator(ctx.shiftOperator(i - 1));
+                shiftExpressionTrad += visitShiftOperator(ctx.shiftOperator(i-1));
                 shiftExpressionTrad += visitAdditiveExpression(ctx.additiveExpression(i));
             }
-            shiftExpressionTrad += "?";
-            writeExpr("}");
         }
 
         return (T) shiftExpressionTrad;
@@ -646,7 +414,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitShiftOperator(CGrammarParser.ShiftOperatorContext ctx) {
         String shiftOperatorTrad = "";
-        shiftOperatorTrad += ctx.getText();
+        shiftOperatorTrad += " " + ctx.getText() + " ";
 
         return (T) shiftOperatorTrad;
     }
@@ -654,40 +422,20 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitRelationalExpression(CGrammarParser.RelationalExpressionContext ctx) {
         String relationalExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.shiftExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitRelationalExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.shiftExpression().size() > 1) {
-            writeExpr("{");
-            relationalExpressionTrad += "¿";
-        }
         relationalExpressionTrad += visitShiftExpression(ctx.shiftExpression(0));
         if (ctx.shiftExpression().size() > 1) {
             for (int i = 1; i < ctx.shiftExpression().size(); i++) {
-                writeExpr("nodo{" + ctx.relationalOperator(i-1).getText() + "}");
-                relationalExpressionTrad += visitRelationalOperator(ctx.relationalOperator(i - 1));
+                relationalExpressionTrad += visitRelationalOperator(ctx.relationalOperator(i-1));
                 relationalExpressionTrad += visitShiftExpression(ctx.shiftExpression(i));
             }
-            relationalExpressionTrad += "?";
-            writeExpr("}");
         }
-
         return (T) relationalExpressionTrad;
     }
 
     @Override
     public T visitRelationalOperator(CGrammarParser.RelationalOperatorContext ctx) {
         String relationalOperatorTrad = "";
-        relationalOperatorTrad += ctx.getText();
+        relationalOperatorTrad += " " + ctx.getText() + " ";
 
         return (T) relationalOperatorTrad;
     }
@@ -695,31 +443,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitEqualityExpression(CGrammarParser.EqualityExpressionContext ctx) {
         String equalityExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.relationalExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitEqualityExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.relationalExpression().size() > 1) {
-            writeExpr("{");
-            equalityExpressionTrad += "¿";
-        }
         equalityExpressionTrad += visitRelationalExpression(ctx.relationalExpression(0));
-        if (ctx.relationalExpression().size() > 1) {
+        if (ctx.relationalExpression().size() > 1 ){
             for (int i = 1; i < ctx.relationalExpression().size(); i++) {
-                writeExpr("nodo{" + ctx.equilatyOperator(i-1).getText() + "}");
-                equalityExpressionTrad += visitEquilatyOperator(ctx.equilatyOperator(i - 1));
+                equalityExpressionTrad += visitEquilatyOperator(ctx.equilatyOperator(i-1));
                 equalityExpressionTrad += visitRelationalExpression(ctx.relationalExpression(i));
             }
-            equalityExpressionTrad += "?";
-            writeExpr("}");
         }
 
         return (T) equalityExpressionTrad;
@@ -728,7 +457,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitEquilatyOperator(CGrammarParser.EquilatyOperatorContext ctx) {
         String equilatyOperatorTrad = "";
-        equilatyOperatorTrad += ctx.getText();
+        equilatyOperatorTrad += " "+ ctx.getText()+ " ";
 
         return (T) equilatyOperatorTrad;
     }
@@ -736,32 +465,14 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitAndExpression(CGrammarParser.AndExpressionContext ctx) {
         String andExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.equalityExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitAndExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.equalityExpression().size() > 1) {
-            writeExpr("{");
-            andExpressionTrad += "¿";
-        }
         andExpressionTrad += visitEqualityExpression(ctx.equalityExpression(0));
-        if (ctx.equalityExpression().size() > 1) {
+        if (ctx.equalityExpression().size() > 1){
             for (int i = 1; i < ctx.equalityExpression().size(); i++) {
-                writeExpr("nodo{&}");
                 andExpressionTrad += "&";
                 andExpressionTrad += visitEqualityExpression(ctx.equalityExpression(i));
             }
-            andExpressionTrad += "?";
-            writeExpr("}");
         }
+
 
         return (T) andExpressionTrad;
     }
@@ -769,97 +480,38 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitExclusiveOrExpression(CGrammarParser.ExclusiveOrExpressionContext ctx) {
         String exclusiveOrExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.andExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitExclusiveOrExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.andExpression().size() > 1) {
-            writeExpr("{");
-            exclusiveOrExpressionTrad += "¿";
-        }
         exclusiveOrExpressionTrad += visitAndExpression(ctx.andExpression(0));
-        if (ctx.andExpression().size() > 1) {
+        if (ctx.andExpression().size() > 1){
             for (int i = 1; i < ctx.andExpression().size(); i++) {
-                writeExpr("nodo{^}");
                 exclusiveOrExpressionTrad += "^";
                 exclusiveOrExpressionTrad += visitAndExpression(ctx.andExpression(i));
             }
-            exclusiveOrExpressionTrad += "?";
-            writeExpr("}");
         }
-
         return (T) exclusiveOrExpressionTrad;
     }
 
     @Override
     public T visitInclusiveOrExpression(CGrammarParser.InclusiveOrExpressionContext ctx) {
         String inclusiveOrExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.exclusiveOrExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitInclusiveOrExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.exclusiveOrExpression().size() > 1) {
-            writeExpr("{");
-            inclusiveOrExpressionTrad += "¿";
-        }
         inclusiveOrExpressionTrad += visitExclusiveOrExpression(ctx.exclusiveOrExpression(0));
-        if (ctx.exclusiveOrExpression().size() > 1) {
+        if (ctx.exclusiveOrExpression().size() >1){
             for (int i = 1; i < ctx.exclusiveOrExpression().size(); i++) {
-                writeExpr("nodo{|}");
                 inclusiveOrExpressionTrad += "|";
                 inclusiveOrExpressionTrad += visitExclusiveOrExpression(ctx.exclusiveOrExpression(i));
             }
-            inclusiveOrExpressionTrad += "?";
-            writeExpr("}");
         }
-
         return (T) inclusiveOrExpressionTrad;
     }
 
     @Override
     public T visitLogicalAndExpression(CGrammarParser.LogicalAndExpressionContext ctx) {
         String logicalAndExpressionTrad = "";
-
-        if(!traduccion) {
-            if(ctx.inclusiveOrExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitLogicalAndExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.inclusiveOrExpression().size() > 1) {
-            writeExpr("{");
-            logicalAndExpressionTrad += "¿";
-        }
         logicalAndExpressionTrad += visitInclusiveOrExpression(ctx.inclusiveOrExpression(0));
         if (ctx.inclusiveOrExpression().size() > 1) {
             for (int i = 1; i < ctx.inclusiveOrExpression().size(); i++) {
-                writeExpr("nodo{&&}");
                 logicalAndExpressionTrad += "&&";
                 logicalAndExpressionTrad += visitInclusiveOrExpression(ctx.inclusiveOrExpression(i));
             }
-            logicalAndExpressionTrad += "?";
-            writeExpr("}");
         }
 
         return (T) logicalAndExpressionTrad;
@@ -868,31 +520,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitLogicalOrExpression(CGrammarParser.LogicalOrExpressionContext ctx) {
         String logicalOrExpressionTrad = "";
-
-        if(!traduccion){
-            if(ctx.logicalAndExpression().size() > 1){
-                String expr = "nodo{" + casteoTh;
-                traduccion = true;
-                expr += visitLogicalOrExpression(ctx);
-                traduccion = false;
-                expr += "}";
-                writeExpr(expr);
-            }
-        }
-
-        if (ctx.logicalAndExpression().size() > 1) {
-            writeExpr("{");
-            logicalOrExpressionTrad += "¿";
-        }
         logicalOrExpressionTrad += visitLogicalAndExpression(ctx.logicalAndExpression(0));
-        if (ctx.logicalAndExpression().size() > 1) {
+        if (ctx.logicalAndExpression().size() > 1){
             for (int i = 1; i < ctx.logicalAndExpression().size(); i++) {
-                writeExpr("nodo{||}");
                 logicalOrExpressionTrad += "||";
                 logicalOrExpressionTrad += visitLogicalAndExpression(ctx.logicalAndExpression(i));
             }
-            logicalOrExpressionTrad += "?";
-            writeExpr("}");
         }
 
         return (T) logicalOrExpressionTrad;
@@ -915,7 +548,6 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitAssignmentExpression(CGrammarParser.AssignmentExpressionContext ctx) {
         String conditionalExpressionTrad = "";
-
         if (ctx.conditionalExpression() != null) {
             conditionalExpressionTrad += visitConditionalExpression(ctx.conditionalExpression());
         } else if (ctx.Identifier() != null) {
@@ -962,26 +594,16 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitDeclaration(CGrammarParser.DeclarationContext ctx) {
         String declarationTrad = "";
-        String linea = "";
-
         declarationTrad += printSpaces();
         if (ctx.declarationSpecifiers() != null) {
-            linea += visitDeclarationSpecifiers(ctx.declarationSpecifiers());
+            declarationTrad += visitDeclarationSpecifiers(ctx.declarationSpecifiers());
             if (ctx.initDeclaratorList() != null) {
-                linea += visitInitDeclaratorList(ctx.initDeclaratorList());
+                declarationTrad += visitInitDeclaratorList(ctx.initDeclaratorList());
             }
-            linea += ";\n";
+            declarationTrad += ";\n";
         } else if (ctx.staticAssertDeclaration() != null) {
-            linea += visitStaticAssertDeclaration(ctx.staticAssertDeclaration());
+            declarationTrad += visitStaticAssertDeclaration(ctx.staticAssertDeclaration());
         }
-        linea = reemplazo(linea).replace("¿", "(").replace("?", ")");
-        Matcher m = Pattern.compile("\\(temp_\\d\\)").matcher(linea);
-        while(m.find()){
-            String var = m.group();
-            linea = linea.replace(var, var.substring(1, var.length()-1));
-        }
-        declarationTrad += linea;
-
 
         return (T) declarationTrad;
     }
@@ -1058,13 +680,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitTypeSpecifier(CGrammarParser.TypeSpecifierContext ctx) {
         String typeSpecifierTrad = "";
-
-        if(ctx.typedefName() != null){
-            typeSpecifierTrad += visitTypedefName(ctx.typedefName());
-        }else{
-            typeSpecifierTrad += ctx.getText();
-            tipoTh = typeSpecifierTrad;
-        }
+        typeSpecifierTrad += ctx.getText();
 
         return (T) typeSpecifierTrad;
     }
@@ -1132,7 +748,6 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         String directDeclaratorTtrad = "";
         if (ctx.Identifier() != null) {
             directDeclaratorTtrad += ctx.Identifier().getText();
-            vars.get(vars.size()-1).put(ctx.Identifier().getText(), tipoTh);
         } else if (ctx.declarator() != null) {
             directDeclaratorTtrad += "(";
             directDeclaratorTtrad += visitDeclarator(ctx.declarator());
@@ -1560,7 +1175,6 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
     @Override
     public T visitTypedefName (CGrammarParser.TypedefNameContext ctx) {
-        vars.get(vars.size()-1).put(ctx.Identifier().getText(), tipoTh);
         return (T)  ctx.Identifier().getText();
     }
 
@@ -1646,15 +1260,12 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitStatement (CGrammarParser.StatementContext ctx) {
         String statementTrad = "";
-
         if (ctx.labeledStatement() != null){
             statementTrad += printSpaces() + visitLabeledStatement(ctx.labeledStatement());
         } else if (ctx.compoundStatement() != null){
             statementTrad += printSpaces() + visitCompoundStatement(ctx.compoundStatement());
         } else if (ctx.expressionStatement() != null){
-            statementTrad += printSpaces();
-            String linea = (String) visitExpressionStatement(ctx.expressionStatement());
-            statementTrad += reemplazo(linea).replace("¿", "(").replace("?", ")");
+            statementTrad += printSpaces() + visitExpressionStatement(ctx.expressionStatement());
         } else if (ctx.selectionStatement() != null){
             statementTrad += printSpaces() + visitSelectionStatement(ctx.selectionStatement());
         } else if (ctx.iterationStatement() != null){
@@ -1746,11 +1357,8 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitBlockItemList (CGrammarParser.BlockItemListContext ctx) {
         String blockItemListTrad = "";
-
         for (int i = 0; i < ctx.blockItem().size(); i++){
-            newExpr("{");
-            blockItemListTrad += (String) visitBlockItem(ctx.blockItem(i));
-            writeExpr("}");
+            blockItemListTrad += visitBlockItem(ctx.blockItem(i));
         }
         return (T) blockItemListTrad;
     }
@@ -1759,13 +1367,11 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitBlockItem (CGrammarParser.BlockItemContext ctx) {
         String blockItemTrad = "";
-
         if (ctx.statement() != null){
             blockItemTrad+=  visitStatement(ctx.statement()) ;
         } else {
             blockItemTrad+=  visitDeclaration(ctx.declaration()) ;
         }
-
         return (T) blockItemTrad;
     }
 
@@ -1784,96 +1390,50 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitSelectionStatement (CGrammarParser.SelectionStatementContext ctx) {
         String selectionStatementTrad = "";
-
         if (ctx.getText().length() >= 2 && ctx.getText().substring(0,2).equals("if")){
-            String linea = "if (";
-
-            newExpr("{");
-            linea += visitExpression(ctx.expression()) + ")\n";
-            selectionStatementTrad += reemplazo(linea).replace("¿", "(").replace("?", ")");
-            writeExpr("}");
-
-            newExpr("");
-
-            entrarContex();
+            selectionStatementTrad += "if (" +  visitExpression(ctx.expression()) + ")\n";
             selectionStatementTrad += visitStatement(ctx.statement(0));
-            salirContex();
-
             if(ctx.statement().size() > 1){
                 selectionStatementTrad += printSpaces() + "else\n";
-                entrarContex();
                 for (int i = 1; i < ctx.statement().size(); i++){
                     selectionStatementTrad += visitStatement(ctx.statement(i));
                 }
-                salirContex();
             }
-
         } else {
-            newExpr("{");
-            selectionStatementTrad += "switch (" + visitExpression(ctx.expression()) + ")";
-            writeExpr("}");
-
-            newExpr("");
-
-            entrarContex();
+            selectionStatementTrad += "switch (" +  visitExpression(ctx.expression()) + ")";
             selectionStatementTrad += visitStatement(ctx.statement(0));
-            salirContex();
         }
-
         return (T) selectionStatementTrad;
     }
 
     public T visitIterationStatement (CGrammarParser.IterationStatementContext ctx) {
         String iterationStatementTrad = "";
-
         if (ctx.Do() != null){
-            entrarContex();
-            iterationStatementTrad += ctx.Do().getText() +  visitStatement(ctx.statement());
-            iterationStatementTrad += this.printSpaces() + ctx.While().getText() +" (";
-            String expresion = (String) visitExpression(ctx.expression());
-            iterationStatementTrad += expresion.replace("¿", "(").replace("?", ")") + ");\n";
-            salirContex();
+            iterationStatementTrad += ctx.Do().getText() +  visitStatement(ctx.statement()) + this.printSpaces() + ctx.While().getText() +" (" + visitExpression(ctx.expression()) + ");\n";
         } else if (ctx.While() != null){
-            entrarContex();
             iterationStatementTrad +=  ctx.While().getText() + " (" + visitExpression(ctx.expression()) + ")" + visitStatement(ctx.statement()) ;
-            salirContex();
         } else {
-            newExpr("{");
-            String linea = ctx.For().getText() + " (¿" + visitForCondition(ctx.forCondition()) + "?)";
-            iterationStatementTrad += reemplazo(linea).replace("¿", "(").replace("?", ")"); ;
-            writeExpr("}");
-
-            newExpr("");
-
-            entrarContex();
-            iterationStatementTrad += visitStatement(ctx.statement());
-            salirContex();
+            iterationStatementTrad += ctx.For().getText() + " (" + visitForCondition(ctx.forCondition()) + ")" + visitStatement(ctx.statement());
         }
-
         return (T) iterationStatementTrad;
     }
 
     @Override
     public T visitForCondition (CGrammarParser.ForConditionContext ctx) {
         String forConditionTrad = "";
-        String linea = "";
-
         if (ctx.forDeclaration() != null){
             forConditionTrad  +=  visitForDeclaration(ctx.forDeclaration());
         } else {
             forConditionTrad +=  visitExpression(ctx.expression());
         }
-
         forConditionTrad += "; ";
         if (ctx.forExpression(0) != null){
-            forConditionTrad += visitForExpression(ctx.forExpression(0));
+            forConditionTrad +=  visitForExpression(ctx.forExpression(0));
         }
         forConditionTrad += "; ";
         if (ctx.forExpression(1) != null){
             forConditionTrad +=  visitForExpression(ctx.forExpression(1));
         }
-        forConditionTrad = forConditionTrad.replace("¿", "(").replace("?", ")");;
-
         return (T) forConditionTrad;
     }
 
@@ -1914,9 +1474,7 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
         }  else if (ctx.getText().contains("return") ) {
             compilationUnitTrad += "return ";
             if (ctx.expression() != null){
-                String linea = (String) visitExpression(ctx.expression());
-                linea = reemplazo(linea).replace("¿", "(").replace("?", ")");
-                compilationUnitTrad += linea;
+                compilationUnitTrad +=  visitExpression(ctx.expression());
             }
         }
         compilationUnitTrad += ";\n";
@@ -1925,20 +1483,26 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
 
     @Override
     public T visitCompilationUnit(CGrammarParser.CompilationUnitContext ctx) {
-
         String compilationUnitTrad = "";
         if (ctx.translationUnit() != null) {
-            compilationUnitTrad +=  visitTranslationUnit(ctx.translationUnit());
+            visitTranslationUnit(ctx.translationUnit());
         }
-        System.out.print(compilationUnitTrad);
-
+        this.traductor = true;
+        if (ctx.translationUnit() != null) {
+            compilationUnitTrad += visitTranslationUnit(ctx.translationUnit());
+        }
+        compilationUnitTrad = compilationUnitTrad.replaceAll("\\n;", "");
+        if (optimum) {
+            //Dejar todo en una linea sin espacios
+            compilationUnitTrad = compilationUnitTrad.replaceAll("\\s+", "");
+        }
+        texto = compilationUnitTrad;
+        //System.out.print(compilationUnitTrad);
         return (T) compilationUnitTrad;
-
     }
 
     @Override
     public T visitTranslationUnit(CGrammarParser.TranslationUnitContext ctx) {
-
         String translationUnitTrad = "";
         if (ctx.IncludeDirective() != null){
             for (int i= 0; i < ctx.IncludeDirective().size(); i++){
@@ -1952,34 +1516,9 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
             }
             translationUnitTrad += "\n";
         }
-        String auxTrad = "";
-
-        for (int i = ctx.externalDeclaration().size()-1; i >= 0; i--) {
-            traduccion = false;
-            contexto = -1;
-            expr.clear();
-            vars.clear();
-            exprComunes.clear();
-            varsTemp.clear();
-
-            entrarContex();
-            visitExternalDeclaration(ctx.externalDeclaration(i));
-            buscarCoincidencias();
-
-            //printExpr();
-            //printExprComunes();
-
-            traduccion = true;
-            contexto = -1;
-            expr.clear();
-            vars.clear();
-            varsTemp.clear();
-
-            entrarContex();
-            auxTrad = visitExternalDeclaration(ctx.externalDeclaration(i)) + auxTrad;
+        for (int i = 0; i < ctx.externalDeclaration().size(); i++) {
+            translationUnitTrad +=  visitExternalDeclaration(ctx.externalDeclaration(i));
         }
-        translationUnitTrad += auxTrad;
-
         return (T) translationUnitTrad;
     }
 
@@ -1987,9 +1526,9 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     public T visitExternalDeclaration(CGrammarParser.ExternalDeclarationContext ctx) {
         String externalDeclarationTrad = "";
         if (ctx.functionDefinition() != null){
-            externalDeclarationTrad += visitFunctionDefinition(ctx.functionDefinition());
+            externalDeclarationTrad +=  visitFunctionDefinition(ctx.functionDefinition());
         } else if (ctx.declaration() != null){
-            externalDeclarationTrad += visitDeclaration(ctx.declaration());
+            externalDeclarationTrad +=  visitDeclaration(ctx.declaration());
         } else {
             externalDeclarationTrad += ";\n";
         }
@@ -1999,14 +1538,76 @@ public class CVisitor<T> extends CGrammarBaseVisitor<T> {
     @Override
     public T visitFunctionDefinition(CGrammarParser.FunctionDefinitionContext ctx) {
         String functionDefinitionTrad = "";
-        if (ctx.declarationSpecifiers() != null) {
-            functionDefinitionTrad +=  visitDeclarationSpecifiers(ctx.declarationSpecifiers());
+        if (!traductor) {
+            ArrayList<String> funcion = new ArrayList<String>();
+            boolean simpleRetFunc = true;
+            if (ctx.declarationSpecifiers() != null){
+                String type = ctx.declarationSpecifiers().declarationSpecifier(0).typeSpecifier().getText();
+                if (type.equals("void")){
+                    simpleRetFunc = false;
+                }
+                funcion.add(type);
+                functionDefinitionTrad +=  visitDeclarationSpecifiers(ctx.declarationSpecifiers());
+            }
+            if (ctx.declarator().directDeclarator().directDeclarator() != null) {
+                String name = ctx.declarator().directDeclarator().directDeclarator().getText();
+                funcion.add(name);
+            }
+            funcion.add("0");
+            if (ctx.declarator().directDeclarator().aux4directDeclarator() != null) {
+                for (int i=0; i<ctx.declarator().directDeclarator().aux4directDeclarator().parameterTypeList().parameterList().parameterDeclaration().size(); i++){
+                    String nameP = ctx.declarator().directDeclarator().aux4directDeclarator().parameterTypeList().parameterList().parameterDeclaration(i).declarator().directDeclarator().getText();
+                    funcion.add(nameP);
+                }
+            }
+            functionDefinitionTrad +=  visitDeclarator(ctx.declarator());
+            funcion.add("1");
+            if (ctx.declarationList() != null) {
+                functionDefinitionTrad +=  visitDeclarationList(ctx.declarationList());
+            }
+            for (int j=0; j<ctx.compoundStatement().blockItemList().blockItem().size(); j++) {
+                if(ctx.compoundStatement().blockItemList().blockItem().size() > 1){
+                    simpleRetFunc = false;
+                    break;
+                }
+                String line;
+                this.traductor = true;
+                if (ctx.compoundStatement().blockItemList().blockItem(j).statement() != null) {
+                    line = (String) visitStatement(ctx.compoundStatement().blockItemList().blockItem(j).statement());
+                } else {
+                    line = (String) visitDeclaration(ctx.compoundStatement().blockItemList().blockItem(j).declaration());
+                }
+                if (j == ctx.compoundStatement().blockItemList().blockItem().size()-1){
+                    funcion.add("2");
+                }
+                funcion.add(line);
+                this.traductor = false;
+            }
+            if (simpleRetFunc) {
+                this.funciones.add(funcion);
+            }
+            functionDefinitionTrad +=  visitCompoundStatement(ctx.compoundStatement());
+        } else {
+            boolean showFunc = true;
+            if (ctx.declarator().directDeclarator().directDeclarator() != null) {
+                String name = ctx.declarator().directDeclarator().directDeclarator().getText();
+                for(int i=0; i<this.funciones.size(); i++){
+                    if (this.funciones.get(i).get(1).equals(name)){
+                        showFunc = false;
+                    }
+                }
+            }
+            if (showFunc) {
+                if (ctx.declarationSpecifiers() != null) {
+                    functionDefinitionTrad +=  visitDeclarationSpecifiers(ctx.declarationSpecifiers());
+                }
+                functionDefinitionTrad +=  visitDeclarator(ctx.declarator());
+                if (ctx.declarationList() != null) {
+                    functionDefinitionTrad +=  visitDeclarationList(ctx.declarationList());
+                }
+                functionDefinitionTrad +=  visitCompoundStatement(ctx.compoundStatement());
+            }
         }
-        functionDefinitionTrad +=  visitDeclarator(ctx.declarator());
-        if (ctx.declarationList() != null) {
-            functionDefinitionTrad +=  visitDeclarationList(ctx.declarationList());
-        }
-        functionDefinitionTrad +=  visitCompoundStatement(ctx.compoundStatement());
         return (T) functionDefinitionTrad;
     }
 

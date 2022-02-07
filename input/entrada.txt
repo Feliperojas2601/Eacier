@@ -1,11 +1,32 @@
 #include <stdio.h>
-int main() {
-int num=0,suma=0;
-do {
-suma=suma+num;
-printf("un número: ");
-scanf("%d",&num);
-} while(num>=0);
-printf("suma es: %d",suma);
-return 0;
+
+void add(){
+int b =3;
+}
+int add1(){
+int k = 2;
+return k+2;
+}
+int add2(int b, int c){
+return b+c;
+}
+
+int main(){
+	int r = 34*5;
+	int r2 = 34*5;
+	float a, b, c, d, e;
+	a = (12/2);
+	b = (12/24);
+	c = (12/a);
+	d = 4;
+	e = (a/d);
+	int f = (12/(a+b));
+	a = (a/2/b);
+	b = (12/6/c);
+	c = (12*2*4*8);
+	d = (12*8/4/78*94);
+	e = add2(3,4);
+	a = add1();
+	b = add();
+	return 0;
 }

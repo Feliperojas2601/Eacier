@@ -164,7 +164,7 @@ conditionalExpression
 
 assignmentExpression
     :   conditionalExpression
-    |   unaryExpression assignmentOperator assignmentExpression
+    |   Identifier assignmentOperator assignmentExpression
     |   DigitSequence // for
     ;
 
